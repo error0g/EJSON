@@ -1,8 +1,8 @@
-package java.cn.error0.EJSON.parser;
+package cn.error0.EJSON.parser;
 
-import java.cn.error0.EJSON.parser.Lexer.LexerType;
+import cn.error0.EJSON.parser.Lexer.LexerType;
 
-import static java.cn.error0.EJSON.parser.Lexer.LexerType.*;
+import static cn.error0.EJSON.parser.Lexer.LexerType.*;
 
 /**
  *        文法规则:

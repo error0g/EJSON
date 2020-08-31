@@ -1,6 +1,6 @@
-package java.cn.error0.EJSON.parser;
+package cn.error0.EJSON.parser;
 
-import static java.cn.error0.EJSON.parser.Lexer.LexerType.*;
+import static cn.error0.EJSON.parser.Lexer.LexerType.*;
 
 
 public class JSONLexer extends Lexer {

@@ -1,4 +1,4 @@
-package java.cn.error0.EJSON.parser;
+package cn.error0.EJSON.parser;
 
 /**
  *  @Description:  词法解析器

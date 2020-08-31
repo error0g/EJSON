@@ -1,5 +1,5 @@
-package java.cn.error0.EJSON.parser;
-import java.cn.error0.EJSON.parser.Lexer.LexerType;
+package cn.error0.EJSON.parser;
+import cn.error0.EJSON.parser.Lexer.LexerType;
 
 
 public abstract class Parser {

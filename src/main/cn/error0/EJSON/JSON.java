@@ -1,4 +1,4 @@
-package java.cn.error0.EJSON;
+package cn.error0.EJSON;
 
 public class JSON {
 

@@ -1,9 +1,9 @@
 
 import org.junit.Test;
 
-import java.cn.error0.EJSON.parser.JSONLexer;
-import java.cn.error0.EJSON.parser.JSONParser;
-import java.cn.error0.EJSON.parser.Lexer;
+import cn.error0.EJSON.parser.JSONLexer;
+import cn.error0.EJSON.parser.JSONParser;
+import cn.error0.EJSON.parser.Lexer;
 
 public class ParserTest {
 
@@ -11,6 +11,7 @@ public class ParserTest {
     public void Example1()
     {
         String json="[1,2,\":\"]";
+
         Lexer lexer=new JSONLexer(json);
         JSONParser JSONParser =new JSONParser(lexer);
         JSONParser.stat();
