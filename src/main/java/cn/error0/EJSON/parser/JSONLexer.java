@@ -1,12 +1,9 @@
-package Parser.List;
+package java.cn.error0.EJSON.parser;
 
-import Parser.Lexer;
-import Parser.Token;
-
-import static Parser.Lexer.LexerType.*;
+import static java.cn.error0.EJSON.parser.Lexer.LexerType.*;
 
 
-public class ListLexer extends Lexer {
+public class JSONLexer extends Lexer {
 
     /**
      * index 当前字符串指针
@@ -15,7 +12,7 @@ public class ListLexer extends Lexer {
     int index;
     char next;
 
-    public ListLexer(String input) {
+    public JSONLexer(String input) {
         super(input);
         this.next=0;
         this.next=input.charAt(index);
@@ -45,8 +42,10 @@ public class ListLexer extends Lexer {
 
     @Override
     public Token NextToken() {
-        while (next!=EOF.getType())
+        while (next!=((char) EOF.getType()))
+
         {
+
             switch (next)
             {
                 case ' ': case '\n': case '\t': case '\r':WS();continue;

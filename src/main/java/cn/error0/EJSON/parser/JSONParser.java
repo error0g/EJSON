@@ -1,11 +1,8 @@
-package Parser.List;
+package java.cn.error0.EJSON.parser;
 
-import Parser.Lexer;
-import Parser.Parser;
-import Parser.Token;
-import Parser.Lexer.LexerType;
+import java.cn.error0.EJSON.parser.Lexer.LexerType;
 
-import static Parser.Lexer.LexerType.*;
+import static java.cn.error0.EJSON.parser.Lexer.LexerType.*;
 
 /**
  *        文法规则:
@@ -19,14 +16,14 @@ import static Parser.Lexer.LexerType.*;
  *        NAME     :  Number | String
  * */
 
-public class ListParser extends Parser {
+public class JSONParser extends Parser {
     /**
      *  @Description:  Token数组索引
      */
    private int index=0;
 
 
-    public ListParser(Lexer lexer) {
+    public JSONParser(Lexer lexer) {
         super(lexer);
         tokens=new Token[5];
         for(int i=1;i<=5;i++)

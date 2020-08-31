@@ -1,6 +1,6 @@
-package Parser;
+package java.cn.error0.EJSON.parser;
 
-import Parser.Lexer.LexerType;
+import java.cn.error0.EJSON.parser.Lexer.LexerType;
 public class Token {
     /**
      * type 单元类型
