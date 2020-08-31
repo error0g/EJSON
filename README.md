@@ -1,5 +1,5 @@
 # EJSON
- ![](https://img.shields.io/badge/language-Java-orange.svg) ![](https://img.shields.io/cocoapods/l/EJSON.svg) ![](https://img.shields.io/badge/license-MIT-000000.svg)
+ ![](https://img.shields.io/badge/language-Java-orange.svg)  ![](https://img.shields.io/badge/license-MIT-000000.svg)
 
 
 
