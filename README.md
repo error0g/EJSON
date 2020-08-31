@@ -1,6 +1,6 @@
 # EJSON
 
-[![](https://travis-ci.org/Alamofire/Alamofire.svg?branch=master)](https://travis-ci.org/Alamofire/Alamofire)![](https://img.shields.io/cocoapods/p/EJSON.svg?style=flat)![](https://img.shields.io/badge/language-Java-orange.svg)![](https://img.shields.io/cocoapods/l/EJSON.svg) 
+![](https://img.shields.io/badge/language-Java-orange.svg) ![](https://img.shields.io/cocoapods/l/EJSON.svg) 
 
 
 
