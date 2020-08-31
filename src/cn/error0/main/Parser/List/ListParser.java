@@ -1,9 +1,11 @@
-package List;
+package Parser.List;
 
 import Parser.Lexer;
 import Parser.Parser;
 import Parser.Token;
+import Parser.Lexer.LexerType;
 
+import static Parser.Lexer.LexerType.*;
 
 /**
  *        文法规则:
@@ -37,11 +39,11 @@ public class ListParser extends Parser {
     {
         switch (LT(1))
         {
-            case Lexer.LBRACES:{
+            case LBRACES:{
               System.out.println( List());
                 break;
             }
-            case Lexer.LBRACKET:{
+            case LBRACKET:{
                 System.out.println( Array());
                 break;
             }
@@ -50,50 +52,50 @@ public class ListParser extends Parser {
         /**
          * @Description:排除JSON是否有多余的字符串
          * */
-        while (LT(1)!=Lexer.EOFTYPE)
+        while (LT(1)!=EOFTYPE)
         {
-            match(Lexer.EOFTYPE);
+            match(EOFTYPE);
         }
     }
 
     private String List() {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.LBRACES);
+        match(LBRACES);
         stringBuilder.append(elements());
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.RBRACES);
+        match(RBRACES);
         return stringBuilder.toString();
     }
     private String EmptyList()
     {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.LBRACES);
+        match(LBRACES);
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.RBRACES);
+        match(RBRACES);
         return stringBuilder.toString();
     }
     private String Array()
     {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("[");
-        match(Lexer.LBRACKET);
+        match(LBRACKET);
         stringBuilder.append(Value());
-        while (LT(1)==Lexer.COMMA){
+        while (LT(1)==COMMA){
             consume();
             stringBuilder.append(",");
             stringBuilder.append(Value());
         }
         stringBuilder.append("]");
-        match(Lexer.RBRACKET);
+        match(RBRACKET);
         return stringBuilder.toString();
     }
 
     private String elements() {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(element());
-        while (LT(1)==Lexer.COMMA){
+        while (LT(1)==COMMA){
             consume();
             stringBuilder.append(",");
             stringBuilder.append(element());
@@ -105,7 +107,7 @@ public class ListParser extends Parser {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(Key());
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.EQUATION);
+        match(EQUATION);
         stringBuilder.append(Value());
         return stringBuilder.toString();
     }
@@ -117,54 +119,54 @@ public class ListParser extends Parser {
 
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.STRING);
-       while (LT(1)!=Lexer.STRING)
+        match(STRING);
+       while (LT(1)!=STRING)
        {
            stringBuilder.append(LA(1).getValue());
-           if(LT(1)==Lexer.EQUATION)
+           if(LT(1)==EQUATION)
            {
-               match(Lexer.EQUATION);
+               match(EQUATION);
            }
            else {
-               match(Lexer.NAME);
+               match(NAME);
            }
        }
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.STRING);
+        match(STRING);
         return stringBuilder.toString();
     }
     private String Integer() {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(Lexer.NAME);
+        match(NAME);
         return stringBuilder.toString();
     }
     private String Value()
     {
         switch (LT(1))
         {
-            case Lexer.STRING:{
+            case STRING:{
                 return String();
             }
-            case Lexer.NAME:{
+            case NAME:{
                if( isNumber(LA(1).getValue()))
                {
                   return Integer();
                }
                else {
-                   throw new Error("type error:"+Lexer.getNameByType(LT(1)));
+                   throw new Error("type error:"+LT(1));
                }
 
             }
-            case Lexer.LBRACES:{
+            case LBRACES:{
                 switch (LT(2))
                 {
-                    case Lexer.RBRACES:
+                    case RBRACES:
                     {
                         return EmptyList();
 
                     }
-                    case Lexer.STRING:
+                    case STRING:
                     {
                         return List();
 
@@ -172,23 +174,23 @@ public class ListParser extends Parser {
                 }
                 break;
             }
-            case Lexer.LBRACKET:{
+            case LBRACKET:{
               return  Array();
             }
-            case Lexer.NULL:{
-                String NULL=LA(1).getValue();
-                match(Lexer.NULL);
-                return NULL;
+            case NULL:{
+                String NullV=LA(1).getValue();
+                match(NULL);
+                return NullV;
             }
-            case Lexer.FALSE:{
-                String FALSE=LA(1).getValue();
-                match(Lexer.FALSE);
-                return FALSE;
+            case FALSE:{
+                String FalseV=LA(1).getValue();
+                match(FALSE);
+                return FalseV;
             }
-            case Lexer.TRUE:{
-                String TRUE=LA(1).getValue();
-                match(Lexer.TRUE);
-                return TRUE;
+            case TRUE:{
+                String TrueV=LA(1).getValue();
+                match(TRUE);
+                return TrueV;
 
             }
         }
@@ -197,12 +199,12 @@ public class ListParser extends Parser {
 
 
     @Override
-    public void match(int type) {
+    public void match(LexerType type) {
         if(LT(1)==type) {
             consume();
         }
         else {
-            throw  new Error("expecting:"+Lexer.getNameByType(type)+" found:"+Lexer.getNameByType(LT(1)));
+            throw  new Error("expecting:"+type+" found:"+LT(1));
         }
     }
 
@@ -219,7 +221,7 @@ public class ListParser extends Parser {
     {
         return tokens[(index+i-1)%tokens.length];
     }
-    public int LT(int i)
+    public LexerType LT(int i)
     {
         return LA(i).getType();
     }

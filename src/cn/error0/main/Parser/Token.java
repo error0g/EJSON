@@ -1,20 +1,20 @@
 package Parser;
 
-
+import Parser.Lexer.LexerType;
 public class Token {
     /**
      * type 单元类型
      * value 单元值
      * */
-    int type;
-    String value;
+    LexerType type;
+    String  value;
 
-    public Token(int type, String value) {
+    public Token(LexerType type, String value) {
         this.type = type;
         this.value = value;
     }
 
-    public int getType() {
+    public LexerType getType() {
         return type;
     }
 
@@ -29,9 +29,8 @@ public class Token {
     @Override
     public String toString() {
         StringBuilder sb=new StringBuilder();
-        String name= Lexer.getNameByType(type);
         sb.append("<");
-        sb.append(name);
+        sb.append(type);
         sb.append(",");
         sb.append(value);
         sb.append(">");

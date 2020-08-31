@@ -1,10 +1,12 @@
-package List;
+package Parser.List;
 
 import Parser.Lexer;
 import Parser.Token;
 
-public class ListLexer extends Lexer {
+import static Parser.Lexer.LexerType.*;
 
+
+public class ListLexer extends Lexer {
 
     /**
      * index 当前字符串指针
@@ -34,7 +36,7 @@ public class ListLexer extends Lexer {
         index++;
         if(index>=super.input.length())
         {
-            next= Lexer.EOF;
+            next= (char) EOF.getType();
         }
         else {
             next=super.input.charAt(index);
@@ -43,29 +45,29 @@ public class ListLexer extends Lexer {
 
     @Override
     public Token NextToken() {
-        while (next!=Lexer.EOF)
+        while (next!=EOF.getType())
         {
             switch (next)
             {
                 case ' ': case '\n': case '\t': case '\r':WS();continue;
-                case '"':match('"');return new Token(Lexer.STRING, "\"");
-                case ',':match(',');return new Token(Lexer.COMMA,",");
-                case ':':match(':'); return new Token(Lexer.EQUATION,":");
-                case '{':match('{'); return new Token(Lexer.LBRACES,"{");
-                case '}':match('}'); return new Token(Lexer.RBRACES,"}");
-                case '[':match('['); return new Token(Lexer.LBRACKET,"[");
-                case ']':match(']'); return new Token(Lexer.RBRACKET,"]");
+                case '"':match('"');return new Token(STRING, "\"");
+                case ',':match(',');return new Token(COMMA,",");
+                case ':':match(':'); return new Token(EQUATION,":");
+                case '{':match('{'); return new Token(LBRACES,"{");
+                case '}':match('}'); return new Token(RBRACES,"}");
+                case '[':match('['); return new Token(LBRACKET,"[");
+                case ']':match(']'); return new Token(RBRACKET,"]");
                 default:
                     if(isNAME())
                     {
                         return NAME();
                     }
                     else {
-                        throw new Error("invalid character:"+next+index);
+                        throw new Error("invalid character:"+next+"-"+index);
                     }
             }
         }
-        return new Token(Lexer.EOFTYPE,"EOF");
+        return new Token(EOFTYPE,"EOF");
     }
 
 
@@ -97,7 +99,7 @@ public class ListLexer extends Lexer {
     {
 
         StringBuilder word=new StringBuilder();
-        int type;
+        LexerType type;
         do {
             word.append(next);
             consume();
@@ -105,10 +107,10 @@ public class ListLexer extends Lexer {
 
         switch (word.toString())
         {
-            case "false":type=Lexer.FALSE;break;
-            case "null":type=Lexer.NULL;break;
-            case "true":type=Lexer.TRUE;break;
-            default:type=Lexer.NAME;break;
+            case "false":type=FALSE;break;
+            case "null":type=NULL;break;
+            case "true":type=TRUE;break;
+            default:type=NAME;break;
     }
         return new Token(type,word.toString());
     }
