@@ -45,8 +45,9 @@ public class ListLexer extends Lexer {
 
     @Override
     public Token NextToken() {
-        while (next!=EOF.getType())
+        while (next!=((char) EOF.getType()))
         {
+
             switch (next)
             {
                 case ' ': case '\n': case '\t': case '\r':WS();continue;
