@@ -27,7 +27,7 @@ EJSON是一个用Java语言开发的JSON库。
 ## Examples
 
 ```java
-EJSON\src\cn\error0\test#Test()
+EJSON\src\cn\error0\test
 /**
 * JSON格式字符串解析测试，输出格式和原来输入字符串基本没差别因为没有做特殊的处理
 * 如果格式错误会抛出错误
