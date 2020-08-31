@@ -1,7 +1,8 @@
 package JSON;
 
-public class JSON {
-    /**
-     *  暂时没写 :p
-     * */
+public class JSON<T> {
+    String Key;
+    Object Value;
+
+
 }

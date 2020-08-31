@@ -1,18 +1,23 @@
-# EJSON -[作者博客](https://www.error0.cn/)
+# EJSON
 
-------
-
-![logo](https://s1.ax1x.com/2020/08/28/doKs5d.png)
+[![](https://travis-ci.org/Alamofire/Alamofire.svg?branch=master)](https://travis-ci.org/Alamofire/Alamofire)![](https://img.shields.io/cocoapods/p/EJSON.svg?style=flat)![](https://img.shields.io/badge/language-Java-orange.svg)![](https://img.shields.io/cocoapods/l/EJSON.svg) 
 
 
 
+<div align=center>
+	<img src="https://s1.ax1x.com/2020/08/28/doKs5d.png" >
+</div>
 
 
-此项目主要用于分享学习，切勿用于生产环境。
+**此项目用于分享学习，切勿用于生产环境**。
 
-作者在学编译原理，为了实践操作所以创建了此项目，目前完成了JSON格式的字符串解析,并为后续功能做准备。
+EJSON是一个用Java语言开发的JSON库。
 
-欢迎大家纠正错误或提交代码。
+如果你现在有学习相关的JSON知识想动手实现操作欢迎你提交代码。
+
+## 目前
+
+- [x] JSON格式字符串解析器 
 
 ## Future
 
@@ -20,7 +25,7 @@
 - 把文档、代码注释写得更加详细。
 - ......
 
-## Example
+## Examples
 
 ```java
 EJSON\src\cn\error0\test#Test()
@@ -48,8 +53,6 @@ Output
 
 
 ```
-
-
 
 
 
