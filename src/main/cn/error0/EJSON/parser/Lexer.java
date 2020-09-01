@@ -34,20 +34,7 @@ public abstract class Lexer {
             return type;
         }
     }
-//    public static final  char EOF= (char) -1;
-//    public static final  int EOFTYPE=1;
-//    public static final  int COMMA=2;
-//    public static final  int LBRACES=3;
-//    public static final  int RBRACES=4;
-//    public static final  int EQUATION=5;
-//    public static final  int NAME=6;
-//    public static final int  STRING=7;
-//    public static final int  NULL=8;
-//    public static final int  TRUE=9;
-//    public static final int  FALSE=10;
-//    public static final int  LBRACKET=11;
-//    public static final int  RBRACKET=12;
-//    private static String Names[]={"n/a","<EOF>","COMMA","LBRACK","RBRACK","EQUATION","NAME","STRING","NULL","TRUE","FALSE","LBRACKET","RBRACKET"};
+
     /**
      * @Description:输入流
      * */

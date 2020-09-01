@@ -1,24 +1,11 @@
 package cn.error0.EJSON;
 
-public class JSON {
+public abstract class JSON {
 
     String Key;
     Object Value;
-    public Object get(){
+
+    public static Object parse(String text) {
         return null;
-    }
-    public void add(String key,Object value)
-    {
-
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "{" +
-                "Key='" + Key + '\'' +
-                ", Value=" + Value +
-                '}';
     }
 }
