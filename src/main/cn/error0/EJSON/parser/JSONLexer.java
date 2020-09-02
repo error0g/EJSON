@@ -1,6 +1,7 @@
 package cn.error0.EJSON.parser;
 
-import static cn.error0.EJSON.parser.Lexer.LexerType.*;
+import  cn.error0.EJSON.parser.Token.TokenType;
+import static cn.error0.EJSON.parser.Token.TokenType.*;
 
 
 public class JSONLexer extends Lexer {
@@ -98,7 +99,7 @@ public class JSONLexer extends Lexer {
     {
 
         StringBuilder word=new StringBuilder();
-        LexerType type;
+         TokenType type;
         do {
             word.append(next);
             consume();

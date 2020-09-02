@@ -1,8 +1,11 @@
 package cn.error0.EJSON.parser;
 
-import cn.error0.EJSON.parser.Lexer.LexerType;
 
-import static cn.error0.EJSON.parser.Lexer.LexerType.*;
+import org.omg.CORBA.Object;
+
+import  cn.error0.EJSON.parser.Token.TokenType;
+import static cn.error0.EJSON.parser.Token.TokenType.*;
+
 
 /**
  *        文法规则:
@@ -32,7 +35,9 @@ public class JSONParser extends Parser {
         }
     }
 
-    public void stat()
+
+
+    public Object stat()
     {
         switch (LT(1))
         {
@@ -53,6 +58,7 @@ public class JSONParser extends Parser {
         {
             match(EOFTYPE);
         }
+        return null;
     }
 
     private String List() {
@@ -196,7 +202,7 @@ public class JSONParser extends Parser {
 
 
     @Override
-    public void match(LexerType type) {
+    public void match(TokenType type) {
         if(LT(1)==type) {
             consume();
         }
@@ -218,7 +224,7 @@ public class JSONParser extends Parser {
     {
         return tokens[(index+i-1)%tokens.length];
     }
-    public LexerType LT(int i)
+    public TokenType LT(int i)
     {
         return LA(i).getType();
     }

@@ -10,30 +10,7 @@ public abstract class Lexer {
     /**
      *  @Description:  词法单元类型
      */
-    public enum LexerType
-    {
-        EOF(-1),
-        EOFTYPE(1),
-        COMMA(2),
-        LBRACES(3),
-        RBRACES(4),
-        EQUATION(5),
-        NAME(6),
-        STRING(7),
-        NULL(8),
-        TRUE(9),
-        FALSE(10),
-        LBRACKET(11),
-        RBRACKET(12);
-        int type;
-        LexerType(int type) {
-            this.type=type;
-        }
 
-        public int getType() {
-            return type;
-        }
-    }
 
     /**
      * @Description:输入流
