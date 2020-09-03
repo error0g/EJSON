@@ -1,33 +1,47 @@
 package cn.error0.EJSON.parser;
 
 
-import org.omg.CORBA.Object;
+
+import cn.error0.EJSON.JSONArray;
+import cn.error0.EJSON.JSONContainer;
 
 import  cn.error0.EJSON.parser.Token.TokenType;
+
+
 import static cn.error0.EJSON.parser.Token.TokenType.*;
 
 
-/**
- *        文法规则:
- *        stat     :list |array
- *        list     : '{' elements '}'
- *        array    :  '[' Value (',' 'Value') *
- *        elements :  element  (',' 'element')*
- *        element  :  NAME  : NAME | list
- *        Key      : " NAME "
- *        Value    : NAME|list|{}|array|Flase|True|Null
- *        NAME     :  Number | String
- * */
-
-public class JSONParser extends Parser {
-    /**
-     *  @Description:  Token数组索引
-     */
-   private int index=0;
 
 
-    public JSONParser(Lexer lexer) {
-        super(lexer);
+public class JSONParser   {
+
+    private  JSONLexer lexer;
+    private int index=0;
+    private  Token[] tokens;
+
+    class Node{
+        String key;
+        Object value;
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public void setValue(Object value) {
+            this.value = value;
+        }
+    }
+
+    public JSONParser(JSONLexer lexer) {
+        this.lexer=lexer;
         tokens=new Token[5];
         for(int i=1;i<=5;i++)
         {
@@ -42,18 +56,14 @@ public class JSONParser extends Parser {
         switch (LT(1))
         {
             case LBRACES:{
-              System.out.println( List());
-                break;
+              return List();
             }
             case LBRACKET:{
-                System.out.println( Array());
-                break;
+                return Array();
             }
         }
 
-        /**
-         * @Description:排除JSON是否有多余的字符串
-         * */
+       //判断多字符串后面多余的字符
         while (LT(1)!=EOFTYPE)
         {
             match(EOFTYPE);
@@ -61,15 +71,14 @@ public class JSONParser extends Parser {
         return null;
     }
 
-    private String List() {
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(LA(1).getValue());
+    private JSONContainer List() {
+        JSONContainer list=null;
         match(LBRACES);
-        stringBuilder.append(elements());
-        stringBuilder.append(LA(1).getValue());
+        list=elements();
         match(RBRACES);
-        return stringBuilder.toString();
+        return list;
     }
+
     private String EmptyList()
     {
         StringBuilder stringBuilder=new StringBuilder();
@@ -79,45 +88,59 @@ public class JSONParser extends Parser {
         match(RBRACES);
         return stringBuilder.toString();
     }
-    private String Array()
+
+    private JSONArray Array()
     {
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append("[");
+        JSONArray array=new JSONArray<>();
         match(LBRACKET);
-        stringBuilder.append(Value());
+        array.add(Value());
         while (LT(1)==COMMA){
             consume();
-            stringBuilder.append(",");
-            stringBuilder.append(Value());
+            array.add(Value());
         }
-        stringBuilder.append("]");
         match(RBRACKET);
-        return stringBuilder.toString();
+        return array;
     }
 
-    private String elements() {
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(element());
+    private JSONContainer elements() {
+        JSONContainer elements=new JSONContainer();
+        Node element=element();
+        elements.put(element.getKey(),element.getValue());
         while (LT(1)==COMMA){
             consume();
-            stringBuilder.append(",");
-            stringBuilder.append(element());
+            element=element();
+            elements.put(element.getKey(),element.getValue());
         }
-    return stringBuilder.toString();
+        return elements;
     }
 
-    private String element() {
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(Key());
-        stringBuilder.append(LA(1).getValue());
+    private Node element() {
+        Node node=new Node();
+        node.setKey(Key());
         match(EQUATION);
-        stringBuilder.append(Value());
-        return stringBuilder.toString();
+        node.setValue(Value());
+        return node;
     }
+
     private String Key()
     {
-        return String();
+        StringBuilder stringBuilder=new StringBuilder();
+        match(STRING);
+        while (LT(1)!=STRING)
+        {
+            stringBuilder.append(LA(1).getValue());
+            if(LT(1)==EQUATION)
+            {
+                match(EQUATION);
+            }
+            else {
+                match(NAME);
+            }
+        }
+        match(STRING);
+        return stringBuilder.toString();
     }
+
     private String String() {
 
         StringBuilder stringBuilder=new StringBuilder();
@@ -138,13 +161,8 @@ public class JSONParser extends Parser {
         match(STRING);
         return stringBuilder.toString();
     }
-    private String Integer() {
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(LA(1).getValue());
-        match(NAME);
-        return stringBuilder.toString();
-    }
-    private String Value()
+
+    private Object Value()
     {
         switch (LT(1))
         {
@@ -152,12 +170,20 @@ public class JSONParser extends Parser {
                 return String();
             }
             case NAME:{
-               if( isNumber(LA(1).getValue()))
+               if( isInteger(LA(1).getValue()))
                {
-                  return Integer();
+                   Integer integer= Integer.valueOf(LA(1).getValue());
+                   match(NAME);
+                  return integer;
+               }
+               else if(isFloat(LA(1).getValue()))
+               {
+                   Double doublev= Double.valueOf(LA(1).getValue());
+                   match(NAME);
+                   return doublev;
                }
                else {
-                   throw new Error("type error:"+LT(1));
+                   throw new Error("Token type error:"+LT(1));
                }
 
             }
@@ -181,27 +207,24 @@ public class JSONParser extends Parser {
               return  Array();
             }
             case NULL:{
-                String NullV=LA(1).getValue();
+
                 match(NULL);
-                return NullV;
+                return null;
             }
             case FALSE:{
-                String FalseV=LA(1).getValue();
+
                 match(FALSE);
-                return FalseV;
+                return false;
             }
             case TRUE:{
-                String TrueV=LA(1).getValue();
                 match(TRUE);
-                return TrueV;
+                return true;
 
             }
         }
         return new String();
     }
 
-
-    @Override
     public void match(TokenType type) {
         if(LT(1)==type) {
             consume();
@@ -211,15 +234,13 @@ public class JSONParser extends Parser {
         }
     }
 
-    @Override
+
     public void consume() {
         tokens[index]=lexer.NextToken();
         index=(index+1)%tokens.length;
     }
 
-    /**
-     * @Description:查看第i个Token
-     * */
+
     public Token LA(int i)
     {
         return tokens[(index+i-1)%tokens.length];
@@ -229,8 +250,13 @@ public class JSONParser extends Parser {
         return LA(i).getType();
     }
 
-    public boolean isNumber(String value)
+    public boolean isInteger(String value)
     {
-        return value.matches("^[+-]?\\d+(\\.\\d+)?$");
+        return value.matches("^-?[1-9]\\d*$");
+    }
+
+    public boolean isFloat(String value)
+    {
+        return value.matches("^-?[1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*$");
     }
 }

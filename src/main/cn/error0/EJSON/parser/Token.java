@@ -1,10 +1,6 @@
 package cn.error0.EJSON.parser;
 
 public class Token {
-    /**
-     * type 单元类型
-     * value 单元值
-     * */
 
     public  enum TokenType
     {
@@ -30,7 +26,10 @@ public class Token {
             return type;
         }
     }
-
+    /**
+     * type 单元类型
+     * value 单元值
+     * */
     TokenType type;
     String  value;
 

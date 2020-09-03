@@ -4,44 +4,40 @@ import  cn.error0.EJSON.parser.Token.TokenType;
 import static cn.error0.EJSON.parser.Token.TokenType.*;
 
 
-public class JSONLexer extends Lexer {
+public class JSONLexer  {
 
-    /**
-     * index 当前字符串指针
-     * next  当前需要匹配的字符串
-     * */
-    int index;
-    char next;
+    private int index;
+    private char next;
+    private String input;
 
     public JSONLexer(String input) {
-        super(input);
+       this.input=input;
         this.next=0;
         this.next=input.charAt(index);
     }
 
-    @Override
     public void match(char  c) {
         if(next==c)
         {
             consume();
         }
         else {
-            throw new Error("grammar error :("+c+","+next+")");
+            throw new Error("type match error :("+c+","+next+")");
         }
     }
-    @Override
+
     public void consume() {
         index++;
-        if(index>=super.input.length())
+        if(index>=input.length())
         {
             next= (char) EOF.getType();
         }
         else {
-            next=super.input.charAt(index);
+            next=input.charAt(index);
         }
     }
 
-    @Override
+
     public Token NextToken() {
         while (next!=((char) EOF.getType()))
 
@@ -76,11 +72,10 @@ public class JSONLexer extends Lexer {
         return isSymbol();
     }
 
+
     public Boolean isSymbol()
     {
-        /**
-         * @Description:过滤关键字
-         * */
+
         switch (next)
         {
             case '"':return false;
