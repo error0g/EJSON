@@ -1,80 +1,76 @@
 package cn.error0.EJSON;
 
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
 public class JSONContainer<K,V> implements Map<K, V> {
 
-   Map<K, V> Container;
+    private final Map<K,V> map;
 
     public JSONContainer() {
-        Container=new HashMap<>();
+        this.map = new HashMap();
     }
-
 
     @Override
     public int size() {
-        return Container.size();
+        return map.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return Container.isEmpty();
+        return map.isEmpty();
     }
 
     @Override
     public boolean containsKey(Object key) {
-        return Container.containsKey(key);
+        return map.containsKey(key);
     }
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        return map.containsValue(value);
     }
 
     @Override
     public V get(Object key) {
-        return Container.get(key);
+        return map.get(key);
     }
 
     @Override
     public V put(K key, V value) {
-
-        return Container.put(key,value);
+        return map.put(key,value);
     }
 
     @Override
     public V remove(Object key) {
-        return Container.remove(key);
+        return map.remove(key);
     }
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        Container.putAll(m);
+         map.putAll(m);
     }
 
     @Override
     public void clear() {
-        Container.clear();
+         map.clear();
     }
 
     @Override
     public Set<K> keySet() {
-        return Container.keySet();
+        return map.keySet();
     }
 
     @Override
     public Collection<V> values() {
-        return Container.values();
+        return map.values();
     }
 
     @Override
     public Set<Entry<K, V>> entrySet() {
-        return Container.entrySet();
+        return map.entrySet();
     }
-
-
 }
