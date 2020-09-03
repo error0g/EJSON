@@ -17,6 +17,7 @@ EJSON是一个用Java语言开发的JSON库。
 ## 目前
 
 - [x] JSON格式字符串解析器 
+- [x] 封装JSON与JSONArray对象
 
 ## Future
 
@@ -27,30 +28,61 @@ EJSON是一个用Java语言开发的JSON库。
 ## Examples
 
 ```java
-EJSON\src\java.cn\error0\test
-/**
-* JSON格式字符串解析测试，输出格式和原来输入字符串基本没差别因为没有做特殊的处理
-* 如果格式错误会抛出错误
-*/
-Import
-       String json="[1,2,\":\"]";
-        Lexer lexer=new ListLexer(json);
-		JSONParser JSONParser=new JSONParser(lexer);
-        JSONParser.stat();
-    
-Output   
-    [1,2,":"] 
- 
-Import
-        String json="{\"name\":\"error0\",\"Age\":20.0,\"Hobby\":[\"Codeing\",\"skateboard\",\"guitar\"]}";
-        Lexer lexer=new ListLexer(json);
-		JSONParser JSONParser=new JSONParser(lexer);
-        JSONParser.stat();
-    
-Output   
-      {"name":"error0","Age":20.0,"Hobby":["Codeing","skateboard","guitar"]}
+EJSON\src\java.cn\error0\ParserTest
 
+ 	@Test
+    public void Example1()
+    {
+        String text="{\"Array\":[-1.1,2,3,4]}";
+        JSONContainer json= (JSONContainer) JSON.parse(text);
+        JSONArray array= (JSONArray) json.get("Array");
+        array.forEach(System.out::println);
+    }
+   
+Output:   
+        -1.1
+        2
+        3
+        100000000
+   ============================================================================================================
+   @Test
+   public void Example2()
+    {
+        String text="{\"boolean\":[null,false,true]}";
 
+        JSONContainer json= (JSONContainer) JSON.parse(text);
+        JSONArray array= (JSONArray) json.get("boolean");
+        array.forEach((item)->{
+            System.out.println(item);
+        });
+
+    }
+    
+Output:   
+        null
+        false
+        true
+============================================================================================================
+ @Test
+    public void LexerTest()
+    {
+        String jsonstr="{\"n\":1.1}";
+        JSONLexer lexer=new JSONLexer(jsonstr);
+        Token token=lexer.NextToken();
+        while (token.getType()!=Token.TokenType.EOFTYPE)
+        {
+            System.out.println(token);
+            token=lexer.NextToken();
+        }
+    }
+Output:      
+        <LBRACES,{>
+        <STRING,">
+        <NAME,n>
+        <STRING,">
+        <EQUATION,:>
+        <NAME,1.1>
+        <RBRACES,}>
 ```
 
 
