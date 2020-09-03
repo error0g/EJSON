@@ -30,12 +30,12 @@ EJSON是一个用Java语言开发的JSON库。
 ```java
 EJSON\src\java.cn\error0\ParserTest
 
- 	@Test
+  @Test
     public void Example1()
     {
-        String text="{\"Array\":[-1.1,2,3,4]}";
+        String text="{\"Number\":[-1.1,2,3,100000000]}";
         JSONContainer json= (JSONContainer) JSON.parse(text);
-        JSONArray array= (JSONArray) json.get("Array");
+        JSONArray array= (JSONArray) json.get("Number");
         array.forEach(System.out::println);
     }
    
