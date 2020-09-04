@@ -4,20 +4,27 @@ package cn.error0.EJSON.parser;
 
 import cn.error0.EJSON.JSONArray;
 import cn.error0.EJSON.JSONContainer;
-
 import  cn.error0.EJSON.parser.Token.TokenType;
-
-
 import static cn.error0.EJSON.parser.Token.TokenType.*;
 
 
-
+/**
+ * LL(1)语法可能会有歧义 所以用了词法缓存池LA(1) 返回当前index索引的词法元素
+ *  LA(2) 返回当前index+1词法元素 以此类推
+ * */
 
 public class JSONParser   {
 
+
+    /**
+     * @field lexer  词法分析器
+     * @field tokens  词法单元缓存池
+     * @field index  词法单元缓存池 索引
+     * */
     private  JSONLexer lexer;
-    private int index=0;
     private  Token[] tokens;
+    private int index=0;
+
 
     class Node{
         String key;
@@ -49,8 +56,9 @@ public class JSONParser   {
         }
     }
 
-
-
+    /**
+     * 梦的开始，为了区分是JSON数组和JSON 用LT 向前看1个词法单元
+     * */
     public Object stat()
     {
         switch (LT(1))
@@ -70,7 +78,9 @@ public class JSONParser   {
         }
         return null;
     }
-
+    /**
+     * 文法：{ elements }
+     * */
     private JSONContainer List() {
         JSONContainer list=null;
         match(LBRACES);
@@ -78,7 +88,9 @@ public class JSONParser   {
         match(RBRACES);
         return list;
     }
-
+    /**
+     * 文法：{ }
+     * */
     private String EmptyList()
     {
         StringBuilder stringBuilder=new StringBuilder();
@@ -88,7 +100,9 @@ public class JSONParser   {
         match(RBRACES);
         return stringBuilder.toString();
     }
-
+    /**
+     * 文法：[ value (,value)+]
+     * */
     private JSONArray Array()
     {
         JSONArray array=new JSONArray<>();
@@ -101,7 +115,9 @@ public class JSONParser   {
         match(RBRACKET);
         return array;
     }
-
+    /**
+     * 文法：element (, element)+
+     * */
     private JSONContainer elements() {
         JSONContainer elements=new JSONContainer();
         Node element=element();
@@ -113,7 +129,9 @@ public class JSONParser   {
         }
         return elements;
     }
-
+    /**
+     * 文法：key : value
+     * */
     private Node element() {
         Node node=new Node();
         node.setKey(Key());
