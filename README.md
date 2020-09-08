@@ -18,6 +18,7 @@ EJSON是一个用Java语言开发的JSON库。
 
 - [x] JSON格式字符串解析器 
 - [x] 封装JSON与JSONArray对象
+- [x] JSON转字符串
 
 ## Future
 
@@ -83,6 +84,18 @@ Output:
         <EQUATION,:>
         <NAME,1.1>
         <RBRACES,}>
+============================================================================================================
+    @Test
+    public void toJSONStringExample()
+    {
+        JSONContainer jsonObject= new JSONContainer();
+        JSONArray jsonArray=new JSONArray();
+        jsonArray.add(jsonObject);
+        jsonObject.put("array",jsonArray);
+        System.out.println(jsonObject);
+    }
+Output:
+		{"array":[{"$ref":"..."}]}
 ```
 
 
