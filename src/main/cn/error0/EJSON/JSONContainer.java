@@ -116,7 +116,6 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
                     JSONContainer jsonContainer=new JSONContainer();
                     jsonContainer.put("$ref","...");
                     stringBuilder.append(jsonContainer);
-                    stringBuilder.append("}");
                 }
             }
             else {
