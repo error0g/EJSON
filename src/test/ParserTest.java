@@ -16,6 +16,8 @@ public class ParserTest {
         JSONContainer json= (JSONContainer) JSON.parse(text);
         JSONArray array= (JSONArray) json.get("Number");
         array.forEach(System.out::println);
+
+        System.out.println(json);
     }
 
     @Test
@@ -28,7 +30,7 @@ public class ParserTest {
         array.forEach((item)->{
             System.out.println(item);
         });
-
+        System.out.println(json);
     }
 
     @Test
@@ -42,5 +44,15 @@ public class ParserTest {
             System.out.println(token);
             token=lexer.NextToken();
         }
+    }
+
+    @Test
+    public void toJSONStringExample()
+    {
+        JSONContainer jsonObject= new JSONContainer();
+        JSONArray jsonArray=new JSONArray();
+        jsonArray.add(jsonObject);
+        jsonObject.put("array",jsonArray);
+        System.out.println(jsonObject);
     }
 }
