@@ -9,9 +9,10 @@ import java.util.Set;
 public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
 
     private final Map<K,V> map;
-
+    private StringBuilder stringBuilder;
     public JSONContainer() {
         this.map = new HashMap();
+        this.stringBuilder=new StringBuilder();
     }
 
     @Override
@@ -78,9 +79,10 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
 
     @Override
     public String toString() {
-        int index = 0;
+        //链接JSON对象
         res.put(this.hashCode(),"JSONContainer");
-        StringBuilder stringBuilder=new StringBuilder();
+
+        int index = 0;
         stringBuilder.append("{");
         for (Map.Entry<K,V>  entry : map.entrySet()) {
             String key= (String) entry.getKey();
@@ -89,6 +91,7 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
             stringBuilder.append(key);
             stringBuilder.append("\"");
             stringBuilder.append(":");
+            //value 有三种可能 JSONContainer、JSONArray、普通值，要做相对于的处理
             if(value instanceof JSONContainer)
             {
                 JSONContainer jsonContainer= (JSONContainer) value;
@@ -98,11 +101,13 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
                     stringBuilder.append(jsonContainer);
                 }
                 else {
+                    //重复引用
                     JSONContainer json=new JSONContainer();
                     json.put("$ref","...");
                     stringBuilder.append(json);
                 }
             }
+
             else if(value instanceof JSONArray)
             {
 
@@ -113,12 +118,15 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
                     stringBuilder.append(jsonArray);
                 }
                 else {
+                    //重复引用
                     JSONContainer jsonContainer=new JSONContainer();
                     jsonContainer.put("$ref","...");
                     stringBuilder.append(jsonContainer);
                 }
             }
-            else {
+            else
+                {
+
                 if(value instanceof String)
                 {
                     stringBuilder.append("\"");
@@ -129,6 +137,7 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
                     stringBuilder.append(value);
                 }
             }
+
             if(index<map.size()-1)
             {
                 stringBuilder.append(",");
@@ -138,4 +147,5 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
         stringBuilder.append("}");
         return stringBuilder.toString();
     }
+
 }

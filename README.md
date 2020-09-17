@@ -20,12 +20,6 @@ EJSON是一个用Java语言开发的JSON库。
 - [x] 封装JSON与JSONArray对象
 - [x] JSON转字符串
 
-## Future
-
-- 把解析的数据进行封装到JSON对象，并实现些操作功能。
-- 把文档、代码注释写得更加详细。
-- ......
-
 ## Examples
 
 ```java
