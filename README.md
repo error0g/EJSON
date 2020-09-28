@@ -12,12 +12,12 @@
 
 EJSON是一个用Java语言开发的JSON库。
 
-如果你现在有学习相关的JSON知识想动手实现操作欢迎你提交代码。
+如果你现在有学习相关JSON的知识想动手实现操作欢迎你提交代码。
 
 ## 目前
 
 - [x] JSON格式字符串解析器 
-- [x] 封装JSON与JSONArray对象
+- [x] JSON与JSONArray对象
 - [x] JSON转字符串
 
 ## Examples
@@ -25,22 +25,29 @@ EJSON是一个用Java语言开发的JSON库。
 ```java
 EJSON\src\java.cn\error0\ParserTest
 
-  @Test
+
+import cn.error0.EJSON.JSON;
+import cn.error0.EJSON.JSONArray;
+import cn.error0.EJSON.JSONContainer;
+import cn.error0.EJSON.parser.Token;
+import org.junit.Test;
+import cn.error0.EJSON.parser.JSONLexer;
+
+
+public class ParserTest {
+
+    @Test
     public void Example1()
     {
         String text="{\"Number\":[-1.1,2,3,100000000]}";
         JSONContainer json= (JSONContainer) JSON.parse(text);
         JSONArray array= (JSONArray) json.get("Number");
         array.forEach(System.out::println);
+
+        System.out.println(json);
     }
-   
-Output:   
-        -1.1
-        2
-        3
-        100000000
-   ============================================================================================================
-   @Test
+
+    @Test
    public void Example2()
     {
         String text="{\"boolean\":[null,false,true]}";
@@ -50,16 +57,11 @@ Output:
         array.forEach((item)->{
             System.out.println(item);
         });
-
+        System.out.println(json);
     }
-    
-Output:   
-        null
-        false
-        true
-============================================================================================================
- @Test
-    public void LexerTest()
+
+    @Test
+    public void LexerExample()
     {
         String jsonstr="{\"n\":1.1}";
         JSONLexer lexer=new JSONLexer(jsonstr);
@@ -70,15 +72,7 @@ Output:
             token=lexer.NextToken();
         }
     }
-Output:      
-        <LBRACES,{>
-        <STRING,">
-        <NAME,n>
-        <STRING,">
-        <EQUATION,:>
-        <NAME,1.1>
-        <RBRACES,}>
-============================================================================================================
+
     @Test
     public void toJSONStringExample()
     {
@@ -88,8 +82,8 @@ Output:
         jsonObject.put("array",jsonArray);
         System.out.println(jsonObject);
     }
-Output:
-		{"array":[{"$ref":"..."}]}
+}
+
 ```
 
 
