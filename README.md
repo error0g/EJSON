@@ -23,7 +23,7 @@ EJSON是一个用Java语言开发的JSON库。
 ## Examples
 
 ```java
-EJSON\src\java.cn\error0\ParserTest
+src/test/ParserTest.java
 
 
 import cn.error0.EJSON.JSON;
