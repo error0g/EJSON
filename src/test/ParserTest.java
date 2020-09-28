@@ -34,7 +34,7 @@ public class ParserTest {
     }
 
     @Test
-    public void LexerTest()
+    public void LexerExample()
     {
         String jsonstr="{\"n\":1.1}";
         JSONLexer lexer=new JSONLexer(jsonstr);

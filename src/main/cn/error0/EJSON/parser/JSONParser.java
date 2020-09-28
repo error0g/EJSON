@@ -143,8 +143,8 @@ public class JSONParser   {
     private String Key()
     {
         StringBuilder stringBuilder=new StringBuilder();
-        match(STRING);
-        while (LT(1)!=STRING)
+        match(QUOTESMAKES);
+        while (LT(1)!=QUOTESMAKES)
         {
             stringBuilder.append(LA(1).getValue());
             if(LT(1)==EQUATION)
@@ -155,7 +155,7 @@ public class JSONParser   {
                 match(NAME);
             }
         }
-        match(STRING);
+        match(QUOTESMAKES);
         return stringBuilder.toString();
     }
 
@@ -163,8 +163,8 @@ public class JSONParser   {
 
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(STRING);
-       while (LT(1)!=STRING)
+        match(QUOTESMAKES);
+       while (LT(1)!=QUOTESMAKES)
        {
            stringBuilder.append(LA(1).getValue());
            if(LT(1)==EQUATION)
@@ -176,7 +176,7 @@ public class JSONParser   {
            }
        }
         stringBuilder.append(LA(1).getValue());
-        match(STRING);
+        match(QUOTESMAKES);
         return stringBuilder.toString();
     }
 
@@ -184,7 +184,7 @@ public class JSONParser   {
     {
         switch (LT(1))
         {
-            case STRING:{
+            case QUOTESMAKES:{
                 return String();
             }
             case NAME:{
@@ -213,7 +213,7 @@ public class JSONParser   {
                         return EmptyList();
 
                     }
-                    case STRING:
+                    case QUOTESMAKES:
                     {
                         return List();
 

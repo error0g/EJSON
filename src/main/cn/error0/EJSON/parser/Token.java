@@ -11,7 +11,7 @@ public class Token {
         RBRACES(4),
         EQUATION(5),
         NAME(6),
-        STRING(7),
+        QUOTESMAKES(7),
         NULL(8),
         TRUE(9),
         FALSE(10),

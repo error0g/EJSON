@@ -59,7 +59,7 @@ public class JSONLexer  {
             switch (next)
             {
                 case ' ': case '\n': case '\t': case '\r':WS();continue;
-                case '"':match('"');return new Token(STRING, "\"");
+                case '"':match('"');return new Token(QUOTESMAKES, "\"");
                 case ',':match(',');return new Token(COMMA,",");
                 case ':':match(':'); return new Token(EQUATION,":");
                 case '{':match('{'); return new Token(LBRACES,"{");
