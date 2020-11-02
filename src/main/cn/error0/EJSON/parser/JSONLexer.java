@@ -13,11 +13,11 @@ public class JSONLexer  {
 
     private int index;
     private char next;
-    private String input;
+    private final String input;
     /**
      *    初始化函数 (暂时没有好的表达方式 留空)
      * */
-    public JSONLexer(String input) {
+    public JSONLexer(final String input) {
         this.input=input;
         this.next=0;
         this.next=input.charAt(index);
@@ -59,13 +59,13 @@ public class JSONLexer  {
             switch (next)
             {
                 case ' ': case '\n': case '\t': case '\r':WS();continue;
-                case '"':match('"');return new Token(QUOTESMAKES, "\"");
+                case '"':match('"');return new Token(QuotationMakr, "\"");
                 case ',':match(',');return new Token(COMMA,",");
                 case ':':match(':'); return new Token(EQUATION,":");
-                case '{':match('{'); return new Token(LBRACES,"{");
-                case '}':match('}'); return new Token(RBRACES,"}");
-                case '[':match('['); return new Token(LBRACKET,"[");
-                case ']':match(']'); return new Token(RBRACKET,"]");
+                case '{':match('{'); return new Token(BeginObjet,"{");
+                case '}':match('}'); return new Token(EndObjet,"}");
+                case '[':match('['); return new Token(BeginArray,"[");
+                case ']':match(']'); return new Token(EndArray,"]");
                 default:
                     if(isNAME())
                     {

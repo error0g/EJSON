@@ -129,20 +129,22 @@ public class JSONArray<T> extends JSON implements  List<Object> {
     @Override
     public String toString() {
         StringBuilder stringBuilder=new StringBuilder();
-        res.put(this.hashCode(),"JSONArray");
-        stringBuilder.append("[");
+        res.put(this.hashCode(),JSON_ARRAY);
+
+        stringBuilder.append(LEFT_EBRACKET);
         for (Object item:list) {
+
             if(item instanceof JSONContainer)
             {
                 JSONContainer jsonContainer= (JSONContainer) item;
                 if(res.get(item.hashCode())==null)
                 {
-                    res.put(item.hashCode(),"JSONContainer");
+                    res.put(item.hashCode(),JSON_CONTAINER);
                     stringBuilder.append(jsonContainer);
                 }
                 else {
                     JSONContainer json=new JSONContainer();
-                    json.put("$ref","...");
+                    json.put(REF,OMIT);
                     stringBuilder.append(json);
                 }
             }
@@ -151,12 +153,12 @@ public class JSONArray<T> extends JSON implements  List<Object> {
                 JSONArray jsonArray= (JSONArray) item;
                 if(res.get(item.hashCode())==null)
                 {
-                    res.put(item.hashCode(),"JSONArray");
+                    res.put(item.hashCode(),JSON_ARRAY);
                     stringBuilder.append(jsonArray);
                 }
                 else {
                     JSONContainer jsonContainer=new JSONContainer();
-                    jsonContainer.put("$ref","...");
+                    jsonContainer.put(REF,OMIT);
                     stringBuilder.append(jsonContainer);
                 }
 
@@ -164,9 +166,9 @@ public class JSONArray<T> extends JSON implements  List<Object> {
             else {
                 if(item instanceof String)
                 {
-                    stringBuilder.append("\"");
+                    stringBuilder.append(QUOTATIO);
                     stringBuilder.append(item);
-                    stringBuilder.append("\"");
+                    stringBuilder.append(QUOTATIO);
                 }
                 else {
                     stringBuilder.append(item);
@@ -174,10 +176,10 @@ public class JSONArray<T> extends JSON implements  List<Object> {
             }
             if(list.indexOf(item)<list.size()-1)
             {
-                stringBuilder.append(",");
+                stringBuilder.append(COMMA);
             }
         }
-        stringBuilder.append("]");
+        stringBuilder.append(RIGHT_BRACKET);
         return stringBuilder.toString();
     }
 }

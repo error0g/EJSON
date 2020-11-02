@@ -21,8 +21,8 @@ public class JSONParser   {
      * @field tokens  词法单元缓存池
      * @field index  词法单元缓存池 索引
      * */
-    private  JSONLexer lexer;
-    private  Token[] tokens;
+    private   JSONLexer lexer;
+    private   Token[] tokens;
     private int index=0;
 
 
@@ -47,26 +47,27 @@ public class JSONParser   {
         }
     }
 
-    public JSONParser(JSONLexer lexer) {
-        this.lexer=lexer;
+    public JSONParser() { }
+
+    /**
+     * 梦的开始，为了区分是JSON数组和JSON 用LT 向前看1个词法单元
+     * */
+    public Object start(String text)
+    {
+        this.lexer=new JSONLexer(text);
         tokens=new Token[5];
         for(int i=1;i<=5;i++)
         {
             consume();
         }
-    }
 
-    /**
-     * 梦的开始，为了区分是JSON数组和JSON 用LT 向前看1个词法单元
-     * */
-    public Object stat()
-    {
+
         switch (LT(1))
         {
-            case LBRACES:{
+            case BeginObjet:{
               return List();
             }
-            case LBRACKET:{
+            case BeginArray:{
                 return Array();
             }
         }
@@ -83,9 +84,9 @@ public class JSONParser   {
      * */
     private JSONContainer List() {
         JSONContainer list=null;
-        match(LBRACES);
+        match(BeginObjet);
         list=elements();
-        match(RBRACES);
+        match(EndObjet);
         return list;
     }
     /**
@@ -95,9 +96,9 @@ public class JSONParser   {
     {
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append(LA(1).getValue());
-        match(LBRACES);
+        match(BeginObjet);
         stringBuilder.append(LA(1).getValue());
-        match(RBRACES);
+        match(EndObjet);
         return stringBuilder.toString();
     }
     /**
@@ -106,13 +107,13 @@ public class JSONParser   {
     private JSONArray Array()
     {
         JSONArray array=new JSONArray<>();
-        match(LBRACKET);
+        match(BeginArray);
         array.add(Value());
         while (LT(1)==COMMA){
             consume();
             array.add(Value());
         }
-        match(RBRACKET);
+        match(EndArray);
         return array;
     }
     /**
@@ -143,8 +144,8 @@ public class JSONParser   {
     private String Key()
     {
         StringBuilder stringBuilder=new StringBuilder();
-        match(QUOTESMAKES);
-        while (LT(1)!=QUOTESMAKES)
+        match(QuotationMakr);
+        while (LT(1)!=QuotationMakr)
         {
             stringBuilder.append(LA(1).getValue());
             if(LT(1)==EQUATION)
@@ -155,37 +156,17 @@ public class JSONParser   {
                 match(NAME);
             }
         }
-        match(QUOTESMAKES);
+        match(QuotationMakr);
         return stringBuilder.toString();
     }
 
-    private String String() {
-
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(LA(1).getValue());
-        match(QUOTESMAKES);
-       while (LT(1)!=QUOTESMAKES)
-       {
-           stringBuilder.append(LA(1).getValue());
-           if(LT(1)==EQUATION)
-           {
-               match(EQUATION);
-           }
-           else {
-               match(NAME);
-           }
-       }
-        stringBuilder.append(LA(1).getValue());
-        match(QUOTESMAKES);
-        return stringBuilder.toString();
-    }
 
     private Object Value()
     {
         switch (LT(1))
         {
-            case QUOTESMAKES:{
-                return String();
+            case QuotationMakr:{
+                return string();
             }
             case NAME:{
                if( isInteger(LA(1).getValue()))
@@ -205,15 +186,15 @@ public class JSONParser   {
                }
 
             }
-            case LBRACES:{
+            case BeginObjet:{
                 switch (LT(2))
                 {
-                    case RBRACES:
+                    case EndObjet:
                     {
                         return EmptyList();
 
                     }
-                    case QUOTESMAKES:
+                    case QuotationMakr:
                     {
                         return List();
 
@@ -221,7 +202,7 @@ public class JSONParser   {
                 }
                 break;
             }
-            case LBRACKET:{
+            case BeginArray:{
               return  Array();
             }
             case NULL:{
@@ -230,7 +211,6 @@ public class JSONParser   {
                 return null;
             }
             case FALSE:{
-
                 match(FALSE);
                 return false;
             }
@@ -243,7 +223,28 @@ public class JSONParser   {
         return new String();
     }
 
-    public void match(TokenType type) {
+    private String string() {
+
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(LA(1).getValue());
+        match(QuotationMakr);
+        while (LT(1)!=QuotationMakr)
+        {
+            stringBuilder.append(LA(1).getValue());
+            if(LT(1)==EQUATION)
+            {
+                match(EQUATION);
+            }
+            else {
+                match(NAME);
+            }
+        }
+        stringBuilder.append(LA(1).getValue());
+        match(QuotationMakr);
+        return stringBuilder.toString();
+    }
+
+    private void match(TokenType type) {
         if(LT(1)==type) {
             consume();
         }
@@ -253,17 +254,17 @@ public class JSONParser   {
     }
 
 
-    public void consume() {
+    private void consume() {
         tokens[index]=lexer.NextToken();
         index=(index+1)%tokens.length;
     }
 
 
-    public Token LA(int i)
+    private Token LA(int i)
     {
         return tokens[(index+i-1)%tokens.length];
     }
-    public TokenType LT(int i)
+    private TokenType LT(int i)
     {
         return LA(i).getType();
     }

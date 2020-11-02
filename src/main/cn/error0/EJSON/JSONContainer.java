@@ -80,30 +80,30 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
     @Override
     public String toString() {
         //链接JSON对象
-        res.put(this.hashCode(),"JSONContainer");
+        res.put(this.hashCode(),JSON_CONTAINER);
 
         int index = 0;
-        stringBuilder.append("{");
+        stringBuilder.append(LEFT_CURLY_BRACES);
         for (Map.Entry<K,V>  entry : map.entrySet()) {
             String key= (String) entry.getKey();
             Object value= entry.getValue();
-            stringBuilder.append("\"");
+            stringBuilder.append(QUOTATIO);
             stringBuilder.append(key);
-            stringBuilder.append("\"");
-            stringBuilder.append(":");
+            stringBuilder.append(QUOTATIO);
+            stringBuilder.append(EQUATION);
             //value 有三种可能 JSONContainer、JSONArray、普通值，要做相对于的处理
             if(value instanceof JSONContainer)
             {
                 JSONContainer jsonContainer= (JSONContainer) value;
                 if(res.get(value.hashCode())!=null)
                 {
-                    res.put(value.hashCode(),"JSONContainer");
+                    res.put(value.hashCode(),JSON_CONTAINER);
                     stringBuilder.append(jsonContainer);
                 }
                 else {
                     //重复引用
                     JSONContainer json=new JSONContainer();
-                    json.put("$ref","...");
+                    json.put(REF,OMIT);
                     stringBuilder.append(json);
                 }
             }
@@ -114,13 +114,13 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
                 JSONArray jsonArray= (JSONArray) value;
                 if(res.get(value.hashCode())==null)
                 {
-                    res.put(value.hashCode(),"JSONArray");
+                    res.put(value.hashCode(),JSON_ARRAY);
                     stringBuilder.append(jsonArray);
                 }
                 else {
                     //重复引用
                     JSONContainer jsonContainer=new JSONContainer();
-                    jsonContainer.put("$ref","...");
+                    jsonContainer.put(REF,OMIT);
                     stringBuilder.append(jsonContainer);
                 }
             }
@@ -129,9 +129,9 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
 
                 if(value instanceof String)
                 {
-                    stringBuilder.append("\"");
+                    stringBuilder.append(QUOTATIO);
                     stringBuilder.append(value);
-                    stringBuilder.append("\"");
+                    stringBuilder.append(QUOTATIO);
                 }
                 else {
                     stringBuilder.append(value);
@@ -140,11 +140,11 @@ public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
 
             if(index<map.size()-1)
             {
-                stringBuilder.append(",");
+                stringBuilder.append(COMMA);
             }
             ++index;
         }
-        stringBuilder.append("}");
+        stringBuilder.append(RIGHT_CURLY_BRACES);
         return stringBuilder.toString();
     }
 
