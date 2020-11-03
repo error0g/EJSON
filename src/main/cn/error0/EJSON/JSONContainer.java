@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class JSONContainer<K,V> extends JSON  implements Map<K, V>  {
 
+
     private final Map<K,V> map;
     private StringBuilder stringBuilder;
     public JSONContainer() {

@@ -55,8 +55,8 @@ public class JSONParser   {
     public Object start(String text)
     {
         this.lexer=new JSONLexer(text);
-        tokens=new Token[5];
-        for(int i=1;i<=5;i++)
+        tokens=new Token[2];
+        for(int i=1;i<=2;i++)
         {
             consume();
         }

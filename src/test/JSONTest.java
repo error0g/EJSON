@@ -49,4 +49,11 @@ public class JSONTest {
         User user= (User) JSON.parse("{\"value\":1}",User.class);
         System.out.println(user);
     }
+    @Test
+    public void ObjectToJSONStringExample()
+    {
+        User user= new User();
+        user.setValue(1);
+        System.out.println(JSON.toJSONString(user));
+    }
 }
