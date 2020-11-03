@@ -78,33 +78,13 @@ public  class JSON {
     }
 
     private static Object ComparisonType(Field field,Object o) {
+        Object object=null;
         try {
-            if (Integer.class.equals(field.getType())) {
-                return field.getInt(o);
-            }
-            else  if (Character.class.equals(field.getType())) {
-                return field.getChar(o);
-            }
-            else  if (Double.class.equals(field.getType())) {
-                return field.getDouble(o);
-            }
-            else  if (Float.class.equals(field.getType())) {
-                return field.getFloat(o);
-            }
-            else  if (Boolean.class.equals(field.getType())) {
-                return field.getBoolean(o);
-            }
-            else  if (Short.class.equals(field.getType())) {
-                return field.getShort(o);
-            }
-            else  if (Byte.class.equals(field.getType())) {
-                return field.getByte(o);
-            }
-            else  {  return field.get(o); }
-        }catch (IllegalAccessException  e) {
+            object=field.get(o);
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        return  null;
+        return object;
     }
 
 }
